@@ -104,3 +104,6 @@ dl.querywidget dd {
 .criteria {
     clear: both;
 }
+.hiddenselect {
+    display: none;
+}

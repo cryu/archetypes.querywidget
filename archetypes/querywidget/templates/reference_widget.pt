@@ -12,7 +12,13 @@
             <dl class="querywidget referenceWidget">
                 <dt class="hiddenStructure" i18n:translate="">Select&hellip;</dt>
                 <dd>
-                    <input class="queryvalue" 
+					<input class="noborder"
+						   type="checkbox"
+						   value="on"
+						   name="search_in_subfolders:boolean"
+						   id="search_subfolders">
+					<label for="search_subfolders">Search subfolders</label>
+                    <input class="queryvalue"
                     	   autocomplete="off"
                     	   type="text"
                     	   name="query.v:records"

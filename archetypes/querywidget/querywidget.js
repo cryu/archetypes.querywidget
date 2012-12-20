@@ -87,10 +87,12 @@
                     });
                 break;
             case 'ReferenceWidget':
-                wrapper.load(portal_url + '/@@archetypes-querywidget-referencewidget');
+                wrapper.load(portal_url + '/@@archetypes-querywidget-referencewidget',
+                             $.querywidget.initHiddenOperator);
                 break;
             case 'RelativePathWidget':
-                wrapper.load(portal_url + '/@@archetypes-querywidget-relativepathwidget');
+                wrapper.load(portal_url + '/@@archetypes-querywidget-relativepathwidget',
+                             $.querywidget.initHiddenOperator);
                 break;
             case 'MultipleSelectionWidget':
                 wrapper.load(portal_url + '/@@archetypes-querywidget-multipleselectionwidget',
@@ -101,6 +103,22 @@
                 break;
         }
         return wrapper;
+    };
+
+    $.querywidget.initHiddenOperator  = function (node) {
+        var original_op = $('select[name^="query.o:records"]');
+        var operator = original_op.val();
+        // rename operator select field
+        original_op.attr('name', 'dummyquery.o:records');
+        // remove subfolder options
+        original_op.find('option[value$="WithoutSubfolders"]').remove();
+        // create hidden operator input field and set orig value
+        var hidden_op = $('<input>').attr({
+            type: 'hidden',
+            name: 'query.o:records',
+            value: operator
+        });
+        hidden_op.insertAfter(original_op);
     };
 
     $.querywidget.getCurrentWidget  = function (node) {
@@ -369,6 +387,16 @@
             $(this).parents('.criteria').remove();
             $.querywidget.updateSearch();
             return false;
+        });
+
+        // set subfolder related operator when checkbox is checked
+        $('#search_subfolders').live('change', function(){
+            var operator = $('select[name^="dummyquery.o:records"]').val();
+            if ($(this).attr('checked')) {
+                operator += 'WithoutSubfolders';
+            }
+            $('input[name^="query.o:records"]').attr('value', operator);
+            $.querywidget.updateSearch();
         });
     };
 })(jQuery);

@@ -8,14 +8,23 @@
          <metal:widget define-macro="widget"
          	tal:define="fieldName fieldName|string:query;
          				value value|nothing">
-            <input class="querywidget queryvalue relativePathWidget"
-                   autocomplete="off" 
-                   type="text" 
-                   class="queryvalue" 
-                   tal:attributes="name python:str(fieldName)+'.v:records'; 
-                   				   value value"
-                   />
-
+			<div class="querywidget">
+			  <div style="float:left">
+			  <input class="noborder"
+					 type="checkbox"
+					 value="on"
+					 name="search_in_subfolders:boolean"
+					 id="search_subfolders">
+			  <label for="search_subfolders">Search subfolders</label>
+			  </div>
+			  <input class="queryvalue relativePathWidget"
+					 autocomplete="off"
+					 type="text"
+					 class="queryvalue"
+					 tal:attributes="name python:str(fieldName)+'.v:records';
+									 value value"
+					 />
+			</div>
           </metal:widget>
     </body>
 </html>
